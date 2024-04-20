@@ -34,9 +34,10 @@ def march(request):
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        return HttpResponse(challenge_text)
+        response_data = f"<h1>{challenge_text}</h1>"
+        return HttpResponse(response_data)
     except:
-        return HttpResponseNotFound("This month is not supported!")
+        return HttpResponseNotFound("<h1>This month is not supported!</h1>")
 
 
 def monthly_challenge_by_number(request, month):
@@ -48,3 +49,14 @@ def monthly_challenge_by_number(request, month):
     redirect_path = reverse("month-challenge", args=[redirect_month])
 
     return HttpResponseRedirect(redirect_path)
+
+
+def index(request):
+
+    list_of_months = ""
+    for month in monthly_challenges.keys():
+        month_path = reverse("month-challenge", args=[month])
+        list_of_months += f"<li><a href='{month_path}'>{month.title()}</a></li>"
+
+    response_data = f"<ul>{list_of_months}<ul/>"
+    return HttpResponse(response_data)
