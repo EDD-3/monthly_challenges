@@ -16,7 +16,7 @@ monthly_challenges = {
     "september": "Learn Django for at least 20 minutes every day!",
     "october": "Eat no meat for the entire month!",
     "november": "Walk for at least 20 minutes every day!",
-    "december": "Learn Django for at least 20 minutes every day!",
+    "december": None,
 }
 
 
@@ -46,9 +46,6 @@ def monthly_challenge_by_number(request, month):
 def index(request):
 
     list_of_months = ""
-    for month in monthly_challenges.keys():
-        month_path = reverse("month-challenge", args=[month])
-        list_of_months += f"<li><a href='{month_path}'>{month.title()}</a></li>"
+    months = list(monthly_challenges.keys())
 
-    response_data = f"<ul>{list_of_months}<ul/>"
-    return HttpResponse(response_data)
+    return render(request, "challenges/index.html", {"months": months})
